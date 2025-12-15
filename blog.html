@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog — Digital Uganda</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <meta property="og:image" content="assets/logo.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root{--text:#0b1a13}
+      body{font-family:'Poppins',sans-serif;margin:0;color:var(--text);background:#f7f8fa}
+      /* Site-wide logo watermark (non-interactive) */
+      body::before{content:"";position:fixed;inset:0;background-image:url('assets/logo.jpg');background-repeat:no-repeat;background-position:center center;background-size:100%;opacity:1;pointer-events:none;z-index:0}
+      main, header, footer, .site-header{position:relative;z-index:1}
+      .container{max-width:1000px;margin:30px auto;padding:0 20px}
+      header{background:#fff;border-bottom:1px solid #eef2f6}
+      nav a{margin-left:14px;text-decoration:none;color:#1f2937}
+      .post{background:#fff;padding:18px;border-radius:10px;border:1px solid #eef2f6;margin-bottom:16px}
+    </style>
+  </head>
+  <body>
+    <div id="site-header"></div>
+    <main class="container">
+      <h1>Blog</h1>
+      <article class="post">
+        <h2>How local pilots create national impact</h2>
+        <p>Case studies and learnings from rural projects.</p>
+        <p><a href="#">Read more →</a></p>
+      </article>
+      <article class="post">
+        <h2>Training youth for the digital economy</h2>
+        <p>Practical curriculum and partnerships.</p>
+        <p><a href="#">Read more →</a></p>
+      </article>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        function loadInclude(path, selector){
+          return fetch(path).then(r=>{ if(!r.ok) throw new Error('Fetch failed'); return r.text(); }).then(html=>document.querySelector(selector).innerHTML = html);
+        }
+        Promise.all([
+          loadInclude('includes/header.html','#site-header').catch(()=>{ document.querySelector('#site-header').innerHTML = '<header class="site-header"><div class="container"><div class="logo"><img src="assets/logo.jpg" alt="Digital Uganda logo" style="height:38px"><strong>Digital Uganda</strong></div><nav class="nav-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></nav><button class="hamburger" aria-label="Open menu"><span></span></button></div></header>'; }),
+          loadInclude('includes/footer.html','#site-footer').catch(()=>{ document.querySelector('#site-footer').innerHTML = '<footer><div class="container"><p>© 2026 Digital Uganda</p></div></footer>'; })
+        ]).then(()=>{
+          const hdr = document.querySelector('#site-header'); const hdrHtml = hdr && hdr.innerHTML.trim(); if(hdrHtml){ const tmp = document.createElement('div'); tmp.innerHTML = hdrHtml; hdr.replaceWith(tmp.firstElementChild); }
+          const ftr = document.querySelector('#site-footer'); const ftrHtml = ftr && ftr.innerHTML.trim(); if(ftrHtml){ const tmp2 = document.createElement('div'); tmp2.innerHTML = ftrHtml; ftr.replaceWith(tmp2.firstElementChild); }
+          try{
+            const btn = document.querySelector('.hamburger'); const nav = document.querySelector('.nav-links');
+            if(btn && nav){ btn.addEventListener('click', ()=>{ nav.classList.toggle('show'); btn.classList.toggle('open'); }); nav.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ if(nav.classList.contains('show')) nav.classList.remove('show'); })); }
+            if(window.initSiteUI) try{ window.initSiteUI(); }catch(e){}
+          }catch(e){console.warn(e)}
+        });
+      })();
+    </script>
+  </body>
+</html>
